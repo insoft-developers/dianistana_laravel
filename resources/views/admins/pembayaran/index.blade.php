@@ -32,6 +32,7 @@
                                     <th>Periode</th>
                                     <th>Amount</th>
                                     <th>Bill To</th>
+                                    <th>Status</th>
 
                                 </tr>
                             </thead>

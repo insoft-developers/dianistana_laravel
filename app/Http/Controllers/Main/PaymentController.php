@@ -40,7 +40,8 @@ class PaymentController extends Controller
 
 
         
-        $payment = Payment::findorFail($input['id']);
+        $payment = Payment::where('id', $input['id'])
+            ->whereNull('status')->first();
         $random = random_int(1000, 9999);
         $invoice = "PM-".date('dmyHis').$random;
 
@@ -416,10 +417,30 @@ class PaymentController extends Controller
     public function payment_link_external($token) {
         
         $payment = Payment::where('payment_token', $token)->first();
+     
+        if($payment->payment_dedication == -1) {
+            return  '<script>
+                        alert("This payment is not for specific user");
+                        window.location = "'.url('payment').'";
+                    </script>';
+           
+        }
+        
         $userid = $payment->payment_dedication;
         $id = $payment->id;
         $setting = \App\Models\Setting::findorFail(1);
         $user = User::findorFail($userid);
+
+
+        if($payment->status == 'CANCELLED') {
+            return  '<script>
+                        alert("This payment has already EXPIRED");
+                        window.location = "'.url('payment').'";
+                    </script>';
+           
+        }
+
+        
     
         $cek = \App\Models\PaymentDetail::where('payment_id', $id)
             ->where('user_id', $userid)

@@ -36,6 +36,17 @@ class PembayaranController extends Controller
     {
         $data = Payment::all();
         return DataTables::of($data)
+            ->addColumn('status', function($data){
+                if($data->status == 'CANCELLED') {
+                    return '<span class="badge bg-danger text-white"><i class="fa fa-times"></i> CANCELLED</span>';
+                } 
+                else if($data->status == 'PAID') {
+                    return '<span class="badge bg-success text-white"><i class="fa fa-check"></i> PAID</span>';
+                }
+                else {
+                    return '<span class="badge bg-info text-white"><i class="fa fa-exclamation"></i> ACTIVE</span>';
+                }
+            })
             ->addColumn('payment_dedication', function ($data) {
                 if ($data->payment_dedication < 0) {
                     return 'All User';
@@ -101,7 +112,7 @@ class PembayaranController extends Controller
                     return $btn;
                 }
             })
-            ->rawColumns(['action', 'created_at', 'payment_name', 'due_date', 'payment_type', 'payment_amount', 'payment_dedication'])
+            ->rawColumns(['action', 'created_at', 'payment_name', 'due_date', 'payment_type', 'payment_amount', 'payment_dedication','status'])
             ->addIndexColumn()
             ->make(true);
     }

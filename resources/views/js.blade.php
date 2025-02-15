@@ -1151,6 +1151,10 @@
                     data: 'payment_dedication',
                     name: 'payment_dedication'
                 },
+                {
+                    data: 'status',
+                    name: 'status'
+                },
 
             ]
         });

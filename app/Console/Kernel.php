@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('expired_booking:cron')->everyMinute();
         $schedule->command('notif_bulanan:cron')->daily();
+        $schedule->command('due-date:cron')->everyMinute();
     }
 
     /**
