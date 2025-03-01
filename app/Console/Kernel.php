@@ -13,8 +13,12 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('expired_booking:cron')->everyMinute();
-        $schedule->command('notif_bulanan:cron')->daily();
+        // $schedule->command('notif_bulanan:cron')->daily();
         $schedule->command('due-date:cron')->daily();
+        $schedule->command('notif_bulanan:cron')->everyMinute();
+        $schedule->command('iuran:cron')->hourly();
+        $schedule->command('tunggakan:cron')->hourly();
+        $schedule->command('zero:cron')->everyMinute();
     }
 
     /**

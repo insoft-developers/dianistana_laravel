@@ -31,7 +31,7 @@ class NotifBulanan extends Command
     public function handle()
     {
         $payment = Payment::where('payment_type', 1)->get();
-        $user = User::where('no_hp', '!=', '')->where('level', 'user')->where('id', 3)->get();
+        $user = User::where('no_hp', '!=', '')->where('level', 'user')->get();
 
         $sekarang = date('Y-m-d');
 
@@ -82,7 +82,7 @@ class NotifBulanan extends Command
     {
         if (!empty($b['reg_id'])) {
             $title = 'Tagihan Iuran Bulanan Periode ' . $b['periode'];
-            $message = '[MyDianIstana] - Bpk/Ibu ' . $b['name'] . ' yang terhormat, Tagihan iuran bulanan anda untuk periode ' . $b['periode'] . ' telah jatuh tempo. Mohon segera dilakukan pembayaran. Terima Kasih';
+            $message = '[MyDianIstana] - Bpk/Ibu ' . $b['name'] . ' yang terhormat, Tagihan iuran bulanan anda untuk periode ' . $b['periode'] . ' telah jatuh tempo. Mohon segera dilakukan pembayaran, abaikan jika Anda sudah melakukan pembayaran. Terima Kasih';
             $regid = $b['reg_id'];
             $n = new \App\Models\Notif();
             $n->title = $title;
@@ -138,18 +138,5 @@ class NotifBulanan extends Command
         $err = curl_error($ch);
         curl_close($ch);
 
-        if ($err) {
-            return response()->json(
-                [
-                    'message' => 'Curl Error ' . $err,
-                ],
-                500,
-            );
-        } else {
-            return response()->json([
-                'message' => 'notification sent',
-                'response' => json_decode($response, true),
-            ]);
-        }
     }
 }
